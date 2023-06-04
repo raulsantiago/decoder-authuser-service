@@ -96,7 +96,7 @@ public class UserController {
             userModel.setCpf(userDto.getCpf());
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(userModel);
-            log.debug("PUT updateUser userModel saved {} ", userModel.toString());
+            log.debug("PUT updateUser userModel userId {} ", userModel.getUserId());
             log.info("User uptated successfully userId {} ", userModel.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body(userModel);
         }
@@ -106,6 +106,7 @@ public class UserController {
     public ResponseEntity<Object> updatePassword(@PathVariable(value = "userId") UUID userId,
                                                  @RequestBody @Validated(UserDto.UserView.PasswordPut.class)
                                                  @JsonView(UserDto.UserView.PasswordPut.class) UserDto userDto){
+        log.debug("PUT updatePassword userDto received {} ", userDto.toString());
         Optional<UserModel> userModelOptional = userService.findById(userId);
         if (!userModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
@@ -118,6 +119,8 @@ public class UserController {
             userModel.setPassword(userDto.getPassword());
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(userModel);
+            log.debug("PUT updatePassword userModel userId {} ", userModel.getUserId());
+            log.info("Password uptated successfully userId {} ", userModel.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body("Password updated successfully.");
         }
     }
@@ -126,6 +129,7 @@ public class UserController {
     public ResponseEntity<Object> updateImage(@PathVariable(value = "userId") UUID userId,
                                               @RequestBody @Validated(UserDto.UserView.ImagePut.class)
                                               @JsonView(UserDto.UserView.ImagePut.class) UserDto userDto){
+        log.debug("PUT updateImage userDto received {} ", userDto.toString());
         Optional<UserModel> userModelOptional = userService.findById(userId);
         if (!userModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
@@ -134,6 +138,8 @@ public class UserController {
             userModel.setImageUrl(userDto.getImageUrl());
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(userModel);
+            log.debug("PUT updateImage userModel userId {} ", userModel.getUserId());
+            log.info("Imagem uptated successfully userId {} ", userModel.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body(userModel);
         }
     }
